@@ -1,0 +1,142 @@
+openapi: 3.0.0
+info:
+    title: Authentication
+    description: Authentication apis
+    version: 1.0.0
+paths:
+    /auth/signup:
+        post:
+            summary: Sign up
+            tags:
+                - Authentication
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                firstName:
+                                    type: string
+                                    required: true
+                                lastName:
+                                    type: string
+                                    required: true
+                                email:
+                                    type: string
+                                    required: true
+                                prayerTimeMethod:
+                                    type: string
+                                    enum:
+                                        [
+                                            'MuslimWorldLeague',
+                                            'Egyptian',
+                                            'Karachi',
+                                            'UmmAlQura',
+                                            'Dubai',
+                                            'Qatar',
+                                            'Kuwait',
+                                            'MoonsightingCommittee',
+                                            'Singapore',
+                                            'Turkey',
+                                            'Tehran',
+                                            'NorthAmerica',
+                                            'Other',
+                                        ]
+                                    required: true
+                                madhab:
+                                    type: string
+                                    enum: ['Shafi', 'Hanafi']
+                                    required: true
+                                occupation:
+                                    type: string
+                                    required: true
+                                city:
+                                    type: string
+                                    required: true
+                                country:
+                                    type: string
+                                    required: true
+                                website:
+                                    type: string
+                                    required: false
+                                mobileNumber:
+                                    type: string
+                                    required: true
+                                lng:
+                                    type: number
+                                    format: double
+                                    required: true
+                                lat:
+                                    type: number
+                                    format: double
+                                    required: true
+                                location:
+                                    type: string
+                                    required: true
+            responses:
+                201:
+                    description: SUCCESS
+                412:
+                    description: DUPLICATED ENTRY
+    /auth/login:
+        post:
+            summary: Log in
+            tags:
+                - Authentication
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                mobileNumber:
+                                    type: string
+                                    required: true
+            responses:
+                200:
+                    description: OK
+                477:
+                    description: no such user
+    /auth/verify:
+        post:
+            summary: Verify code
+            tags:
+                - Authentication
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                mobileNumber:
+                                    type: string
+                                    required: true
+                                code:
+                                    type: integer
+                                    required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                        properties:
+                                            user:
+                                                type: object
+                                                properties:
+                                                    id:
+                                                        type: integer
+                                                    firstName:
+                                                        type: string
+                                                    lastName:
+                                                        type: string
+                                                    role:
+                                                        type: string
+                                            accessToken:
+                                                type: string

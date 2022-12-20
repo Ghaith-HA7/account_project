@@ -1,0 +1,702 @@
+openapi: 3.0.0
+info:
+    title: Masjid
+    description: Masjid apis
+    version: 1.0.0
+paths:
+    /masjid/:
+        post:
+            description: create a new masjid
+            tags:
+                - Masjid
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required: true
+                            properties:
+                                name:
+                                    type: string
+                                customId:
+                                    type: string
+                                adminId:
+                                    type: integer
+                                location:
+                                    type: string
+                                lat:
+                                    type: number
+                                    format: double
+                                lng:
+                                    type: number
+                                    format: double
+                                method:
+                                    type: string
+                                    enum:
+                                        [
+                                            'MuslimWorldLeague',
+                                            'Egyptian',
+                                            'Karachi',
+                                            'UmmAlQura',
+                                            'Dubai',
+                                            'Qatar',
+                                            'Kuwait',
+                                            'MoonsightingCommittee',
+                                            'Singapore',
+                                            'Turkey',
+                                            'Tehran',
+                                            'NorthAmerica',
+                                            'Other',
+                                        ]
+                                madhab:
+                                    type: string
+                                    enum: ['Shafi', 'Hanafi']
+                                img:
+                                    type: string
+                                    required: false
+                                coverImg:
+                                    type: string
+                                    required: false
+                                openBookingBefore:
+                                    type: integer
+                                openCheckinBefore:
+                                    type: integer
+                                totalCheckins:
+                                    type: integer
+                                    required: true
+                                prayerTimes:
+                                    type: array
+                                    required: true
+                                    items:
+                                        type: object
+                                        properties:
+                                            prayerName:
+                                                type: string
+                                                enum: ['Fajr', 'Zuhr', 'Asr', 'Maghreb', 'Ishaa']
+                                                required: true
+                                            iqama:
+                                                type: integer
+                                                required: true
+            responses:
+                201:
+                    description: CREATED
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                        properties:
+                                            id:
+                                                type: integer
+    /public/masjid/:
+        get:
+            description: get list of masjids.
+            tags:
+                - Masjid
+            responses:
+                200:
+                    description: OK
+
+    /masjid/{id}:
+        patch:
+            description: update masjid
+            tags:
+                - Masjid
+            parameters:
+                - name: id
+                  in: path
+                  schema:
+                      type: integer
+            requestBody:
+                required: false
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required: false
+                            properties:
+                                name:
+                                    type: string
+                                customId:
+                                    type: string
+                                location:
+                                    type: string
+                                lat:
+                                    type: number
+                                    format: double
+                                lng:
+                                    type: number
+                                    format: double
+                                method:
+                                    type: string
+                                    enum:
+                                        [
+                                            'MuslimWorldLeague',
+                                            'Egyptian',
+                                            'Karachi',
+                                            'UmmAlQura',
+                                            'Dubai',
+                                            'Qatar',
+                                            'Kuwait',
+                                            'MoonsightingCommittee',
+                                            'Singapore',
+                                            'Turkey',
+                                            'Tehran',
+                                            'NorthAmerica',
+                                            'Other',
+                                        ]
+                                madhab:
+                                    type: string
+                                    enum: ['Shafi', 'Hanafi']
+                                openBookingBefore:
+                                    type: integer
+                                openCheckinBefore:
+                                    type: integer
+                                prayerTimes:
+                                    type: array
+                                    items:
+                                        type: object
+                                        properties:
+                                            prayerName:
+                                                type: string
+                                                enum: ['Fajr', 'Zuhr', 'Asr', 'Maghreb', 'Ishaa']
+                                                required: true
+                                            iqama:
+                                                type: integer
+                                                required: true
+            responses:
+                200:
+                    description: OK
+        delete:
+            description: delete a masjid
+            tags:
+                - Masjid
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                204:
+                    description: OK
+
+    /masjid/{id}/donate/:
+        post:
+            summary: user donate for masjid
+            tags:
+                - Masjid
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                  description: masjid id
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                paymentMethodId:
+                                    type: string
+                                    required: true
+                                targetAmount:
+                                    type: integer
+                                    min: 50
+                                    required: true
+                                supportAmount:
+                                    type: integer
+                                    required: false
+            responses:
+                201:
+                    description: CREATED
+
+    /public/masjid/{id}:
+        get:
+            description: get masjid data with its prayer times nested .
+            tags:
+                - Masjid
+            parameters:
+                - name: id
+                  in: path
+                  schema:
+                      type: integer
+                - name: date
+                  in: query
+                  schema:
+                      type: string
+                      format: date-time
+            responses:
+                200:
+                    description: OK
+    /masjid/{id}/follow:
+        post:
+            summary: follow masjid
+            tags:
+                - Masjid
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                201:
+                    description: OK
+        delete:
+            summary: unFollow masjid
+            tags:
+                - Masjid
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                204:
+                    description: DELETED
+
+    /masjid/{id}/check-in:
+        post:
+            description: checkin for a booked prayer.
+            tags:
+                - Masjid
+            parameters:
+                - name: id
+                  description: masjid id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required: true
+                            properties:
+                                hallId:
+                                    type: integer
+                                    required: true
+                                prayerCode:
+                                    type: integer
+                                    description: two digits code
+                                bookId:
+                                    type: integer
+                                    required: true
+            responses:
+                201:
+                    description: CREATED
+        delete:
+            description: cancel a previous check-in
+            tags:
+                - Masjid
+            parameters:
+                - name: id
+                  in: path
+                  schema:
+                      type: integer
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required: true
+                            properties:
+                                checkinId:
+                                    type: integer
+                                    required: true
+            responses:
+                204:
+                    description: DELETED
+    /masjid/my-checkins:
+        get:
+            description: Get my active checkins
+            tags:
+                - Masjid
+            responses:
+                200:
+                    description: OK
+    /masjid/delete-my-checkins-bookings:
+        get:
+            description: delete all of my checkins and bookings
+            tags:
+                - Masjid
+            responses:
+                204:
+                    description: DELETED
+    /masjid/{id}/hall:
+        post:
+            description: create a hall
+            tags:
+                - Masjid
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required: true
+                            properties:
+                                totalCheckins:
+                                    type: integer
+                                    required: true
+            responses:
+                201:
+                    description: CREATED
+    /public/masjid/{id}/hall:
+        get:
+            description: get masjid halls.
+            tags:
+                - Masjid
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                - name: prayerId
+                  in: query
+                  required: true
+                  schema:
+                      type: integer
+                - name: date
+                  in: query
+                  schema:
+                      type: string
+                      format: date-time
+                - name: limit
+                  in: query
+                  schema:
+                      type: integer
+                - name: offset
+                  in: query
+                  schema:
+                      type: integer
+            responses:
+                200:
+                    description: OK
+    /masjid/hall/{hallId}:
+        patch:
+            description: update a hall
+            tags:
+                - Masjid
+            parameters:
+                - name: hallId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                required: false
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required: false
+                            properties:
+                                totalCheckins:
+                                    type: integer
+            responses:
+                200:
+                    description: OK
+        delete:
+            description: delete a hall
+            tags:
+                - Masjid
+            parameters:
+                - name: hallId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                204:
+                    description: OK
+    /masjid/{id}/hall/generate-code:
+        post:
+            description: generate prayer code for all halls, or for a single hall if hallId is specified
+            tags:
+                - Masjid
+            parameters:
+                - name: id
+                  in: path
+                  description: masjid id
+                  required: true
+                  schema:
+                      type: integer
+                - name: prayerId
+                  in: query
+                  required: true
+                  schema:
+                      type: integer
+                - name: hallId
+                  in: query
+                  schema:
+                      type: integer
+            responses:
+                201:
+                    description: CREATED
+    /masjid/{id}/hall/remove-code:
+        delete:
+            description: delete prayer code for all halls, or for a single hall if hallId is specified
+            tags:
+                - Masjid
+            parameters:
+                - name: id
+                  in: path
+                  description: masjid id
+                  required: true
+                  schema:
+                      type: integer
+                - name: prayerId
+                  in: query
+                  required: true
+                  schema:
+                      type: integer
+                - name: hallId
+                  in: query
+                  schema:
+                      type: integer
+            responses:
+                204:
+                    description: OK
+
+    /masjid/{id}/book:
+        post:
+            description: book pray.
+            tags:
+                - Masjid
+            parameters:
+                - name: id
+                  description: masjid id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required: true
+                            properties:
+                                prayerId:
+                                    type: number
+                                    required: true
+                                prayerDate:
+                                    type: string
+                                    format: date-time
+
+            responses:
+                201:
+                    description: CREATED
+    /masjid/upcoming-bookings:
+        get:
+            summary: Get upcoming bookings ordered by prayers
+            tags:
+                - Masjid
+            responses:
+                200:
+                    description: OK
+    /masjid/check-in-history:
+        get:
+            summary: Returns checkins history desc order
+            tags:
+                - Masjid
+            parameters:
+                - name: masjidId
+                  in: query
+                  required: false
+                  schema:
+                      type: integer
+                - name: limit
+                  in: query
+                  schema:
+                      type: integer
+                  required: false
+                - name: offset
+                  in: query
+                  schema:
+                      type: integer
+                  required: false
+                - name: total
+                  in: query
+                  schema:
+                      type: ''
+                  required: false
+            responses:
+                200:
+                    description: OK
+    /masjid/{id}/attachment:
+        patch:
+            description: upload masjid attachment.
+            tags:
+                - Masjid
+            parameters:
+                - name: id
+                  in: path
+                  schema:
+                      type: integer
+            requestBody:
+                required: true
+                content:
+                    multipart/form-data:
+                        schema:
+                            type: object
+                            properties:
+                                file:
+                                    type: string
+                                    format: binary
+                                    required: true
+                                type:
+                                    type: string
+                                    enum: ['img', 'coverImg']
+                                    required: true
+            responses:
+                200:
+                    description: OK
+    /masjid/{id}/custom-prayer:
+        post:
+            description: create a custom prayer
+            tags:
+                - Masjid
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required: true
+                            properties:
+                                prayerName:
+                                    type: string
+                                    required: true
+                                startDate:
+                                    type: string
+                                    format: date-time
+                                    required: true
+                                hallsTotals:
+                                    type: array
+                                    items:
+                                        type: integer
+                                    required: false
+            responses:
+                201:
+                    description: CREATED
+    /masjid/{id}/custom-prayer/{prayerId}:
+        patch:
+            description: update a custom prayer
+            tags:
+                - Masjid
+            parameters:
+                - name: id
+                  in: path
+                  description: masjid id
+                  required: true
+                  schema:
+                      type: integer
+                - name: prayerId
+                  in: path
+                  description: prayer id
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                required: false
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required: false
+                            properties:
+                                prayerName:
+                                    type: string
+                                startDate:
+                                    type: string
+                                    format: date-time
+                                hallsTotals:
+                                    type: array
+                                    items:
+                                        type: integer
+                                    required: false
+            responses:
+                200:
+                    description: OK
+        delete:
+            description: delete a custom prayer
+            tags:
+                - Masjid
+            parameters:
+                - name: id
+                  in: path
+                  description: masjid id
+                  required: true
+                  schema:
+                      type: integer
+                - name: prayerId
+                  in: path
+                  description: prayer id
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                204:
+                    description: OK
+    /masjid/{id}/daily-prayer/{prayerId}:
+        patch:
+            description: update a daily prayer
+            tags:
+                - Masjid
+            parameters:
+                - name: id
+                  in: path
+                  description: masjid id
+                  required: true
+                  schema:
+                      type: integer
+                - name: prayerId
+                  in: path
+                  description: prayer id
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                required: false
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required: false
+                            properties:
+                                iqama:
+                                    type: integer
+                                    required: false
+                                totalCheckins:
+                                    type: integer
+                                    required: false
+            responses:
+                200:
+                    description: OK

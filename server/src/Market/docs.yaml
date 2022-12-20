@@ -1,0 +1,210 @@
+openapi: 3.0.0
+info:
+    title: Market
+    description: Market apis
+    version: 1.0.0
+paths:
+    /market/products/:
+        post:
+            description: create new product
+            tags:
+                - Marketplace
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - type
+                                - title
+                                - description
+                                - isNew
+                                - price
+                                - images
+                            properties:
+                                type:
+                                    type: string
+                                    enum:
+                                        - electronics
+                                        - clothes
+                                        - others
+                                title:
+                                    type: string
+                                description:
+                                    type: string
+                                isNew:
+                                    type: boolean
+                                price:
+                                    type: number
+                                    format: double
+            responses:
+                201:
+                    description: CREATED
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                        properties:
+                                            id:
+                                                type: integer
+
+    /market/products/{id}:
+        patch:
+            description: update market product
+            tags:
+                - Marketplace
+            parameters:
+                - name: id
+                  required: true
+                  in: path
+                  schema:
+                      type: integer
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                type:
+                                    type: string
+                                    enum:
+                                        - electronics
+                                        - clothes
+                                        - others
+                                title:
+                                    type: string
+                                description:
+                                    type: string
+                                isNew:
+                                    type: boolean
+                                price:
+                                    type: number
+                                    format: double
+                                images:
+                                    type: array
+                                    items:
+                                        format: binary
+            responses:
+                200:
+                    description: OK
+        delete:
+            description: delete a product with all images
+            tags:
+                - Marketplace
+            parameters:
+                - name: id
+                  required: true
+                  in: path
+                  schema:
+                      type: integer
+            responses:
+                204:
+                    description: DELETED
+
+    /market/products/images:
+        patch:
+            summary: Updates product images
+            tags:
+                - Marketplace
+            parameters:
+                - name: productId
+                  in: query
+                  schema:
+                      type: integer
+                      required: true
+            requestBody:
+                required: true
+                content:
+                    multipart/form-data:
+                        schema:
+                            type: object
+                            properties:
+                                file:
+                                    type: string
+                                    format: binary
+                                    required: true
+            responses:
+                201:
+                    description: updated
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                id:
+                                                    type: integer
+                                                url:
+                                                    type: string
+                                                productId:
+                                                    type: integer
+                                                createdAt:
+                                                    type: string
+
+    /public/market/products/:
+        get:
+            description: get list of products.
+            tags:
+                - Marketplace
+            parameters:
+                - name: limit
+                  in: query
+                  schema:
+                      type: integer
+                - name: offset
+                  in: query
+                  schema:
+                      type: integer
+                - name: total
+                  in: query
+                  schema:
+                      type: string
+                      default: null
+                - name: type
+                  required: false
+                  in: query
+                  schema:
+                      type: string
+                      enum:
+                          - electronics
+                          - clothes
+                          - others
+                - name: onlyUser
+                  in: query
+                  required: false
+                  schema:
+                      type: boolean
+                - name: sortByPrice
+                  in: query
+                  required: false
+                  schema:
+                      type: string
+                      enum:
+                          - ASC
+                          - DESC
+                - name: sortByDate
+                  in: query
+                  required: false
+                  schema:
+                      type: string
+                      enum:
+                          - ASC
+                          - DESC
+                - name: q
+                  in: query
+                  required: false
+                  schema:
+                      type: string
+
+            responses:
+                200:
+                    description: OK

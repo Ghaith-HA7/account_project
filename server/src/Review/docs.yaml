@@ -1,0 +1,51 @@
+openapi: 3.0.0
+info:
+    title: Review
+    description: Review apis
+    version: 1.0.0
+paths:
+    /review:
+        post:
+            description: create new review object
+            tags:
+                - Review
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - points
+                                - reviewableType
+                                - reviewableId
+                            properties:
+                                points:
+                                    type: integer
+                                comment:
+                                    type: string
+                                reviewableType:
+                                    type: string
+                                reviewableId:
+                                    type: integer
+            responses:
+                201:
+                    description: Created
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                        properties:
+                                            id:
+                                                type: integer
+    /public/review:
+        get:
+            description: get list of reviews
+            tags:
+                - Review
+            responses:
+                200:
+                    description: OK

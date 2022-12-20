@@ -1,0 +1,335 @@
+openapi: 3.0.0
+info:
+    title: Masjid Events
+    description: Masjid Events apis
+    version: 1.0.0
+paths:
+    /masjid/events/:
+        post:
+            summary: create a new masjid event
+            tags:
+                - Masjid Events
+            requestBody:
+                required: true
+                content:
+                    multipart/form-data:
+                        schema:
+                            type: object
+                            properties:
+                                masjidId:
+                                    type: integer
+                                fee:
+                                    type: integer
+                                total:
+                                    type: integer
+                                    required: true
+                                dailyRenew:
+                                    type: boolean
+                                title:
+                                    type: string
+                                    required: true
+                                lat:
+                                    type: number
+                                    format: double
+                                lng:
+                                    type: number
+                                    format: double
+                                location:
+                                    type: string
+                                description:
+                                    type: string
+                                    required: true
+                                sheikhName:
+                                    type: string
+                                category:
+                                    type: string
+                                    required: true
+                                startDate:
+                                    type: string
+                                    format: date-time
+                                    required: true
+                                endDate:
+                                    type: string
+                                    format: date-time
+                                    required: true
+                                image:
+                                    type: string
+                                    format: binary
+                                    required: false
+                                attachment:
+                                    type: string
+                                    format: binary
+                                    required: false
+            responses:
+                201:
+                    description: CREATED
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    msg:
+                                        type: string
+                                        example: CREATED
+                                    data:
+                                        type: object
+                                        properties:
+                                            id:
+                                                type: integer
+                                            fee:
+                                                type: integer
+                                            total:
+                                                type: integer
+                                            title:
+                                                type: string
+                                            lat:
+                                                type: number
+                                                format: double
+                                            lng:
+                                                type: number
+                                                format: double
+                                            location:
+                                                type: string
+                                            description:
+                                                type: string
+                                            sheikhName:
+                                                type: string
+                                            category:
+                                                type: string
+                                            startDate:
+                                                type: string
+                                                format: date-time
+                                            endDate:
+                                                type: string
+                                                format: date-time
+                                            img:
+                                                type: string
+                                            attachmentUrl:
+                                                type: string
+                                            createdAt:
+                                                type: string
+
+    /public/masjid/events/:
+        get:
+            summary: get list of masjids events.
+            tags:
+                - Masjid Events
+            parameters:
+                - name: limit
+                  in: query
+                  schema:
+                      type: integer
+                - name: offset
+                  in: query
+                  schema:
+                      type: integer
+                - name: masjidId
+                  in: query
+                  schema:
+                      type: integer
+                - name: category
+                  in: query
+                  schema:
+                      type: string
+                - name: startDate
+                  in: query
+                  schema:
+                      type: string
+                      format: 'date-time'
+                - name: endDate
+                  in: query
+                  schema:
+                      type: string
+                      format: 'date-time'
+                - name: date
+                  in: query
+                  schema:
+                      type: string
+                      format: 'date-time'
+                - name: lat
+                  in: query
+                  schema:
+                      type: number
+                - name: lng
+                  in: query
+                  schema:
+                      type: number
+            responses:
+                200:
+                    description: OK
+
+    /public/masjid/events/{id}:
+        get:
+            summary: get masjid event by id .
+            tags:
+                - Masjid Events
+            parameters:
+                - name: id
+                  in: path
+                  schema:
+                      type: integer
+            responses:
+                200:
+                    description: OK
+    /masjid/events/{id}/register:
+        post:
+            summary: register user in an event .
+            tags:
+                - Masjid Events
+            parameters:
+                - name: id
+                  in: path
+                  schema:
+                      type: integer
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required: true
+                            properties:
+                                dates:
+                                    type: array
+                                    items:
+                                        type: string
+                                        format: date-time
+                                numberOfFamilyMembers:
+                                    type: integer
+                                supportAmount:
+                                    type: number
+                                paymentMethodId:
+                                    type: string
+            responses:
+                201:
+                    description: OK
+    /masjid/events/{id}/un-register:
+        delete:
+            summary: unRegister user in an event .
+            tags:
+                - Masjid Events
+            parameters:
+                - name: id
+                  in: path
+                  schema:
+                      type: integer
+            responses:
+                204:
+                    description: DELETED
+    /masjid/events/{id}/attachment:
+        patch:
+            summary: upload masjid event attachment.
+            tags:
+                - Masjid Events
+            parameters:
+                - name: id
+                  in: path
+                  schema:
+                      type: integer
+            requestBody:
+                required: true
+                content:
+                    multipart/form-data:
+                        schema:
+                            type: object
+                            properties:
+                                file:
+                                    type: string
+                                    format: binary
+                                    required: true
+            responses:
+                200:
+                    description: OK
+    /masjid/events/{id}/user-interest/:
+        post:
+            summary: add user interest
+            tags:
+                - Masjid Events
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                  description: event id
+            responses:
+                201:
+                    description: CREATED
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                        properties:
+                                            userId:
+                                                type: integer
+                                            targetId:
+                                                type: integer
+                                            targetType:
+                                                type: string
+                                            createdAt:
+                                                type: string
+                                                format: date-time
+        delete:
+            description: delete a user interest
+            tags:
+                - Masjid Events
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                  description: event id
+            responses:
+                204:
+                    description: OK
+    /public/masjid/events/category:
+        get:
+            summary: get categories list
+            tags:
+                - Masjid Events
+            parameters:
+                - name: limit
+                  in: query
+                  schema:
+                      type: integer
+                - name: offset
+                  in: query
+                  schema:
+                      type: integer
+            responses:
+                200:
+                    description: OK
+    /masjid/events/category:
+        post:
+            summary: create a new category
+            tags:
+                - Masjid Events
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required: true
+                            properties:
+                                name:
+                                    type: string
+                                    required: true
+            responses:
+                201:
+                    description: OK
+    /masjid/events/category/{name}:
+        delete:
+            summary: delete a category
+            tags:
+                - Masjid Events
+            parameters:
+                - name: name
+                  in: path
+                  schema:
+                      type: string
+            responses:
+                204:
+                    description: DELETED

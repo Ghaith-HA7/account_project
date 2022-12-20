@@ -1,0 +1,1071 @@
+openapi: 3.0.0
+info:
+    title: Zakat
+    description: Zakat apis
+    version: 1.0.0
+paths:
+    /zakat-ul-mal/estimate:
+        get:
+            summary: Returns the The amount of estimated for apply
+            tags:
+                - Zakat
+            parameters:
+                - name: familySize
+                  required: true
+                  schema:
+                      type: integer
+                  in: query
+                - name: totalCash
+                  required: true
+                  schema:
+                      type: number
+                  in: query
+                - name: totalIncome
+                  required: true
+                  schema:
+                      type: number
+                  in: query
+            responses:
+                200:
+                    description: OK
+    /zakat-ul-mal:
+        get:
+            summary: Returns the The amount of zakat for pay
+            tags:
+                - Zakat
+            parameters:
+                - name: cash
+                  schema:
+                      type: number
+                  in: query
+                - name: chequingAccounts
+                  schema:
+                      type: number
+                  in: query
+                - name: savingAccounts
+                  schema:
+                      type: number
+                  in: query
+                - name: loansReceivables
+                  schema:
+                      type: number
+                  in: query
+                - name: TFSAAccount
+                  schema:
+                      type: number
+                  in: query
+                - name: RESPAssets
+                  schema:
+                      type: number
+                  in: query
+                - name: RESPAccount
+                  schema:
+                      type: number
+                  in: query
+                - name: otherSavingsAccounts
+                  schema:
+                      type: number
+                  in: query
+                - name: otherCash
+                  schema:
+                      type: number
+                  in: query
+                - name: businessValue
+                  schema:
+                      type: number
+                  in: query
+                - name: realEstateInvestments
+                  schema:
+                      type: number
+                  in: query
+                - name: sharesOrStocks
+                  schema:
+                      type: number
+                  in: query
+                - name: preciousMetals
+                  schema:
+                      type: number
+                  in: query
+                - name: otherInvestments
+                  schema:
+                      type: number
+                  in: query
+                - name: businessDebts
+                  schema:
+                      type: number
+                  in: query
+                - name: mortgagesOnRealEstateInvestments
+                  schema:
+                      type: number
+                  in: query
+                - name: otherUnpaidDebts
+                  schema:
+                      type: number
+                  in: query
+
+            responses:
+                200:
+                    description: Returns Calculations
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    msg:
+                                        type: string
+                                        example: OK
+                                    data:
+                                        type: object
+                                        properties:
+                                            totalAssets:
+                                                type: number
+                                            totalLiabilities:
+                                                type: number
+                                            netAssets:
+                                                type: number
+                                            zakatableAmount:
+                                                type: number
+                                            zakatDue:
+                                                type: number
+        post:
+            summary: Applies for zakat
+            tags:
+                - Zakat
+            requestBody:
+                content:
+                    multipart/form-data:
+                        schema:
+                            type: object
+                            properties:
+                                relationship:
+                                    type: string
+                                    enum: ['single', 'married', 'divorced', 'separated', 'widowed']
+                                    required: true
+                                familySize:
+                                    type: integer
+                                    required: true
+                                totalIncome:
+                                    type: number
+                                    required: true
+                                totalCash:
+                                    type: number
+                                    required: true
+                                underEighteenChildren:
+                                    type: integer
+                                    required: true
+                                legalGivenName:
+                                    type: string
+                                    required: true
+                                legalLastName:
+                                    type: string
+                                    required: true
+                                gender:
+                                    type: string
+                                    enum: ['male', 'female']
+                                    required: true
+                                spouseLegalGivenName:
+                                    type: string
+                                    required: false
+                                spouseLegalLastName:
+                                    type: string
+                                    required: false
+                                bankStatement:
+                                    type: string
+                                    format: binary
+                                    required: false
+                                firstPaystub:
+                                    type: string
+                                    format: binary
+                                    required: false
+                                secondPaystub:
+                                    type: string
+                                    format: binary
+                                    required: false
+                                thirdPaystub:
+                                    type: string
+                                    format: binary
+                                    required: false
+                                photoId:
+                                    type: string
+                                    format: binary
+                                    required: false
+                                ccbNotice:
+                                    type: string
+                                    format: binary
+                                    required: false
+            responses:
+                201:
+                    description: Applied
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    msg:
+                                        type: string
+                                        example: CREATED
+                                    data:
+                                        type: object
+                                        properties:
+                                            id:
+                                                type: integer
+                                            relationship:
+                                                type: string
+                                                enum: ['single', 'married', 'divorced', 'separated', 'widowed']
+                                            familySize:
+                                                type: integer
+                                            totalIncome:
+                                                type: number
+                                            totalCash:
+                                                type: number
+                                            underEighteenChildren:
+                                                type: integer
+                                            legalGivenName:
+                                                type: string
+                                            legalLastName:
+                                                type: string
+                                            gender:
+                                                type: string
+                                                enum: ['male', 'female']
+                                            spouseLegalGivenName:
+                                                type: string
+                                            spouseLegalLastName:
+                                                type: string
+                                            bankStatement:
+                                                type: string
+                                            firstPaystub:
+                                                type: string
+                                            secondPaystub:
+                                                type: string
+                                            thirdPaystub:
+                                                type: string
+                                            photoId:
+                                                type: string
+                                            ccbNotice:
+                                                type: string
+                                            createdAt:
+                                                type: string
+                                                format: 'date-time'
+                                            updatedAt:
+                                                type: string
+                                                format: 'date-time'
+    /zakat-ul-mal/settings:
+        get:
+            summary: Get settings of zakat ul-mal
+            tags:
+                - Zakat
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    msg:
+                                        type: string
+                                        example: OK
+                                    data:
+                                        type: object
+                                        properties:
+                                            nisabMal:
+                                                type: number
+                                            goldPrice:
+                                                type: number
+                                            onePerson:
+                                                type: number
+                                            twoPeople:
+                                                type: number
+                                            threePeople:
+                                                type: number
+                                            fourPeople:
+                                                type: number
+                                            fivePeople:
+                                                type: number
+                                            sixPeople:
+                                                type: number
+                                            morePeople:
+                                                type: number
+                                            cpiBaseYear:
+                                                type: number
+                                            cpiCurrent:
+                                                type: number
+                                            allocationRate:
+                                                type: number
+        post:
+            summary: Set settings of zakat ul-mal
+            tags:
+                - Zakat
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                nisabMal:
+                                    type: number
+                                goldPrice:
+                                    type: number
+                                onePerson:
+                                    type: number
+                                twoPeople:
+                                    type: number
+                                threePeople:
+                                    type: number
+                                fourPeople:
+                                    type: number
+                                fivePeople:
+                                    type: number
+                                sixPeople:
+                                    type: number
+                                morePeople:
+                                    type: number
+                                cpiBaseYear:
+                                    type: number
+                                cpiCurrent:
+                                    type: number
+                                allocationRate:
+                                    type: number
+            responses:
+                200:
+                    description: OK
+
+    /zakat-ul-mal/requests:
+        get:
+            summary: Returns all pending applies for zakat
+            tags:
+                - Zakat
+            responses:
+                200:
+                    description: OK
+    /zakat-ul-mal/my-requests:
+        get:
+            summary: Returns the current user applies for zakat
+            tags:
+                - Zakat
+            responses:
+                200:
+                    description: OK
+    /zakat-ul-mal/{id}:
+        patch:
+            summary: process a zakat request (accept / reject)
+            tags:
+                - Zakat
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                  description: zakat apply id
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                rejected:
+                                    type: boolean
+                                    required: true
+            responses:
+                200:
+                    description: OK
+    /zakat-ul-mal/donate/:
+        post:
+            summary: user donate for zakat-ul-mal
+            tags:
+                - Zakat
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                paymentMethodId:
+                                    type: string
+                                    required: true
+                                targetAmount:
+                                    type: integer
+                                    min: 50
+                                    required: true
+                                supportAmount:
+                                    type: integer
+                                    required: false
+            responses:
+                201:
+                    description: CREATED
+    /zakat-ul-fitr/estimate:
+        get:
+            summary: Returns the The amount of estimated
+            tags:
+                - Zakat
+            parameters:
+                - name: familySize
+                  required: true
+                  schema:
+                      type: integer
+                  in: query
+                - name: totalCash
+                  required: true
+                  schema:
+                      type: number
+                  in: query
+                - name: totalIncome
+                  required: true
+                  schema:
+                      type: number
+                  in: query
+            responses:
+                200:
+                    description: OK
+    /zakat-ul-fitr:
+        get:
+            summary: Returns the amount of Zakat–ul-Fitr
+            tags:
+                - Zakat
+            parameters:
+                - name: numberOfMembers
+                  schema:
+                      type: integer
+                      required: true
+                  in: query
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    msg:
+                                        type: string
+                                        example: OK
+                                    data:
+                                        type: object
+                                        properties:
+                                            zakatFitrDue:
+                                                type: number
+        post:
+            summary: Applies for zakat
+            tags:
+                - Zakat
+            requestBody:
+                content:
+                    multipart/form-data:
+                        schema:
+                            type: object
+                            properties:
+                                familySize:
+                                    type: integer
+                                    required: true
+                                totalIncome:
+                                    type: number
+                                    required: true
+                                gender:
+                                    type: string
+                                    enum: ['male', 'female']
+                                    required: true
+                                bankStatement:
+                                    type: string
+                                    format: binary
+                                    required: false
+                                firstPaystub:
+                                    type: string
+                                    format: binary
+                                    required: true
+                                secondPaystub:
+                                    type: string
+                                    format: binary
+                                    required: true
+                                thirdPaystub:
+                                    type: string
+                                    format: binary
+                                    required: true
+                                photoId:
+                                    type: string
+                                    format: binary
+                                    required: true
+                                ccbNotice:
+                                    type: string
+                                    format: binary
+                                    required: true
+            responses:
+                201:
+                    description: Applied
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    msg:
+                                        type: string
+                                        example: CREATED
+                                    data:
+                                        type: object
+                                        properties:
+                                            id:
+                                                type: integer
+                                            familySize:
+                                                type: integer
+                                            totalIncome:
+                                                type: number
+                                            gender:
+                                                type: string
+                                                enum: ['male', 'female']
+                                            bankStatement:
+                                                type: string
+                                            firstPaystub:
+                                                type: string
+                                            secondPaystub:
+                                                type: string
+                                            thirdPaystub:
+                                                type: string
+                                            photoId:
+                                                type: string
+                                            ccbNotice:
+                                                type: string
+                                            createdAt:
+                                                type: string
+                                                format: 'date-time'
+                                            updatedAt:
+                                                type: string
+                                                format: 'date-time'
+    /zakat-ul-fitr/set-nisab:
+        post:
+            summary: set nisab value (super-admin)
+            tags:
+                - Zakat
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                value:
+                                    type: integer
+                                    required: true
+            responses:
+                201:
+                    description: CREATED
+    /zakat-ul-fitr/requests:
+        get:
+            summary: Returns all pending applies for zakat
+            tags:
+                - Zakat
+            responses:
+                200:
+                    description: OK
+    /zakat-ul-fitr/my-requests:
+        get:
+            summary: Returns the current user applies for zakat
+            tags:
+                - Zakat
+            responses:
+                200:
+                    description: OK
+    /zakat-ul-fitr/{id}:
+        patch:
+            summary: process a zakat request (accept / reject)
+            tags:
+                - Zakat
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                  description: zakat apply id
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                rejected:
+                                    type: boolean
+                                    required: true
+            responses:
+                200:
+                    description: OK
+
+    /zakat-ul-fitr/donate/:
+        post:
+            summary: user donate for zakat-ul-fitr
+            tags:
+                - Zakat
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                paymentMethodId:
+                                    type: string
+                                    required: true
+                                targetAmount:
+                                    type: integer
+                                    min: 50
+                                    required: true
+                                supportAmount:
+                                    type: integer
+                                    required: false
+            responses:
+                201:
+                    description: CREATED
+
+    /iftar-meals/settings:
+        get:
+            summary: Get settings of iftar-meals
+            tags:
+                - Zakat
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    msg:
+                                        type: string
+                                        example: OK
+                                    data:
+                                        type: object
+                                        properties:
+                                            title:
+                                                type: string
+                                            goal:
+                                                type: number
+                                            on:
+                                                type: boolean
+        post:
+            summary: Set settings of iftar-meals
+            tags:
+                - Zakat
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                title:
+                                    type: string
+                                goal:
+                                    type: number
+                                on:
+                                    type: boolean
+            responses:
+                200:
+                    description: OK
+
+    /public/iftar-meals:
+        get:
+            summary: Returns iftar-meals as a list
+            tags:
+                - Zakat
+            parameters:
+                - name: startDate
+                  in: query
+                  schema:
+                      type: string
+                      format: 'date-time'
+                  required: false
+                - name: endDate
+                  in: query
+                  schema:
+                      type: string
+                      format: 'date-time'
+                  required: false
+            responses:
+                200:
+                    description: OK
+
+    /iftar-meals/donate/:
+        post:
+            summary: user donate for meal zakat
+            tags:
+                - Zakat
+            parameters:
+                - name: date
+                  in: query
+                  required: true
+                  schema:
+                      type: string
+                      format: date-time
+                  description: meal date
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                paymentMethodId:
+                                    type: string
+                                    required: true
+                                targetAmount:
+                                    type: integer
+                                    min: 50
+                                    required: true
+                                supportAmount:
+                                    type: integer
+                                    required: false
+            responses:
+                201:
+                    description: CREATED
+
+    /public/givings/:
+        get:
+            summary: get list of givings.
+            tags:
+                - Zakat
+            parameters:
+                - name: limit
+                  in: query
+                  required: false
+                  schema:
+                      type: integer
+                - name: offset
+                  in: query
+                  required: false
+                  schema:
+                      type: integer
+                - name: title
+                  in: query
+                  required: false
+                  schema:
+                      type: string
+                - name: location
+                  in: query
+                  required: false
+                  schema:
+                      type: string
+                - name: funds
+                  in: query
+                  required: false
+                  schema:
+                      type: integer
+            responses:
+                200:
+                    description: OK
+
+    /public/givings/{id}:
+        get:
+            summary: get giving data with number of interested and shares.
+            tags:
+                - Zakat
+            parameters:
+                - name: id
+                  in: path
+                  schema:
+                      type: integer
+            responses:
+                200:
+                    description: OK
+
+    /givings/:
+        post:
+            summary: create a new giving
+            tags:
+                - Zakat
+            requestBody:
+                required: true
+                content:
+                    multipart/form-data:
+                        schema:
+                            type: object
+                            properties:
+                                file:
+                                    type: string
+                                    format: binary
+                                title:
+                                    type: string
+                                    required: true
+                                location:
+                                    type: string
+                                    required: true
+                                category:
+                                    type: string
+                                    enum:
+                                        [
+                                            'Food/Water',
+                                            'Mosque/Community',
+                                            'Education',
+                                            'Women',
+                                            'Orphans',
+                                            'Refugee',
+                                            'Emergency Relief',
+                                            'Health',
+                                            'Creative',
+                                            'Other',
+                                        ]
+                                funds:
+                                    type: integer
+                                    required: true
+                                description:
+                                    type: string
+                                    required: true
+                                startDate:
+                                    type: string
+                                    format: date-time
+                                    required: true
+                                endDate:
+                                    type: string
+                                    format: date-time
+                                    required: true
+                                socialLinks:
+                                    type: array
+                                    required: false
+                                    items:
+                                        type: object
+                                        properties:
+                                            key:
+                                                type: string
+                                                enum: ['Facebook', 'Twitter', 'Instagram', 'Snapchat', 'Youtube']
+                                            value:
+                                                type: string
+            responses:
+                201:
+                    description: CREATED
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                        properties:
+                                            id:
+                                                type: integer
+
+    /givings/{id}:
+        patch:
+            summary: update giving information
+            tags:
+                - Zakat
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                  description: giving id
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required: false
+                            properties:
+                                title:
+                                    type: string
+                                category:
+                                    type: string
+                                    enum:
+                                        [
+                                            'Food/Water',
+                                            'Mosque/Community',
+                                            'Education',
+                                            'Women',
+                                            'Orphans',
+                                            'Refugee',
+                                            'Emergency Relief',
+                                            'Health',
+                                            'Creative',
+                                            'Other',
+                                        ]
+                                location:
+                                    type: string
+                                funds:
+                                    type: integer
+                                description:
+                                    type: string
+                                startDate:
+                                    type: string
+                                    format: date-time
+                                endDate:
+                                    type: string
+                                    format: date-time
+                                socialLinks:
+                                    type: array
+                                    required: false
+                                    items:
+                                        type: object
+                                        properties:
+                                            key:
+                                                type: string
+                                                enum: ['Facebook', 'Twitter', 'Instagram', 'Snapchat', 'Youtube']
+                                            value:
+                                                type: string
+            responses:
+                200:
+                    description: OK
+        delete:
+            description: delete a giving
+            tags:
+                - Zakat
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                  description: giving id
+            responses:
+                204:
+                    description: OK
+
+    /givings/{id}/attachment/:
+        patch:
+            summary: update giving image
+            tags:
+                - Zakat
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                  description: giving id
+            requestBody:
+                content:
+                    multipart/form-data:
+                        schema:
+                            type: object
+                            properties:
+                                file:
+                                    type: string
+                                    format: binary
+            responses:
+                200:
+                    description: OK
+
+    /givings/{id}/donate/:
+        post:
+            summary: user donate for giving zakat
+            tags:
+                - Zakat
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                  description: giving id
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                paymentMethodId:
+                                    type: string
+                                    required: true
+                                targetAmount:
+                                    type: integer
+                                    min: 50
+                                    required: true
+                                supportAmount:
+                                    type: integer
+                                    required: false
+            responses:
+                201:
+                    description: CREATED
+
+    /givings/{id}/user-interest/:
+        post:
+            summary: add user interest
+            tags:
+                - Zakat
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                  description: giving id
+            responses:
+                201:
+                    description: CREATED
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                        properties:
+                                            userId:
+                                                type: integer
+                                            targetId:
+                                                type: integer
+                                            targetType:
+                                                type: string
+                                            createdAt:
+                                                type: string
+                                                format: date-time
+        delete:
+            description: delete a user interest
+            tags:
+                - Zakat
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                  description: giving id
+            responses:
+                204:
+                    description: OK
+
+    /givings/{id}/user-share/:
+        post:
+            summary: add user share
+            tags:
+                - Zakat
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                  description: giving id
+            responses:
+                201:
+                    description: CREATED
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                        properties:
+                                            userId:
+                                                type: integer
+                                            targetId:
+                                                type: integer
+                                            targetType:
+                                                type: string
+                                            createdAt:
+                                                type: string
+                                                format: date-time
+        delete:
+            description: delete a user share
+            tags:
+                - Zakat
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                  description: giving id
+            responses:
+                204:
+                    description: OK

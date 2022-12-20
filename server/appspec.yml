@@ -1,0 +1,27 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ec2-user/muslims
+hooks:
+  BeforeInstall:
+    - location: scripts/pre_install.sh
+      timeout: 300
+      runas: root
+  AfterInstall:
+    - location: scripts/post_install.sh
+      timeout: 600
+      runas: root
+  ApplicationStart:
+    - location: scripts/start.sh
+      timeout: 120
+      runas: root
+  ApplicationStop:
+    - location: scripts/stop.sh
+      timeout: 120
+      runas: root
+  ValidateService:
+    - location: scripts/validate.sh
+      timeout: 60
+      runas: root
+

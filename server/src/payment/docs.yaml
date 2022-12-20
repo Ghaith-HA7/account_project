@@ -1,0 +1,208 @@
+openapi: 3.0.0
+info:
+    title: Payment
+    description: Payment apis
+    version: 1.0.0
+paths:
+    /payment/:
+        get:
+            summary: get user payments
+            tags:
+                - Payment
+            parameters:
+                - name: limit
+                  in: query
+                  schema:
+                      type: integer
+                - name: offset
+                  in: query
+                  schema:
+                      type: integer
+                - name: targetId
+                  in: query
+                  schema:
+                      type: integer
+                - name: targetType
+                  in: query
+                  schema:
+                      type: string
+                      enum: ['zakatUlMal', 'zakatUlFtr', 'givings', 'meals', 'masjids', 'masjidEvents']
+                - name: confirmed
+                  in: query
+                  schema:
+                      type: boolean
+                - name: createdAt
+                  in: query
+                  required: false
+                  schema:
+                      type: string
+                      format: date
+            responses:
+                200:
+                    description: OK
+
+    /payment/link-account:
+        post:
+            summary: link stripe account
+            tags:
+                - Payment
+            parameters:
+                - name: userId
+                  in: query
+                  required: false
+                  schema:
+                      description: in case superAdmin link user account we specify target userId.
+                      type: integer
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                refreshUrl:
+                                    description: The URL the user will be redirected to if the account link is expired.
+                                    type: string
+                                    required: true
+                                returnUrl:
+                                    description: The URL that the user will be redirected to upon leaving or completing the linked flow.
+                                    type: string
+                                    required: true
+                                type:
+                                    type: string
+                                    enum: ['zakatUlMal', 'zakatUlFtr', 'givings', 'meals', 'masjids', 'masjidEvents']
+                                    required: true
+            responses:
+                201:
+                    description: OK
+
+    /payment/stripe-mode:
+        post:
+            summary: switch stripe mode
+            tags:
+                - Payment
+            parameters:
+                - name: mode
+                  in: query
+                  required: true
+                  schema:
+                      type: string
+                      enum: ['test', 'live']
+                      required: true
+            responses:
+                201:
+                    description: OK
+        get:
+            summary: get stripe mode (live or test)
+            tags:
+                - Payment
+            responses:
+                200:
+                    description: OK
+
+    /payment/unlink-account:
+        delete:
+            summary: unlink stripe account
+            tags:
+                - Payment
+            parameters:
+                - name: userId
+                  in: query
+                  required: false
+                  schema:
+                      description: in case superAdmin unlink user account we specify target userId.
+                      type: integer
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                type:
+                                    type: string
+                                    enum: ['zakatUlMal', 'zakatUlFtr', 'givings', 'meals', 'masjids', 'masjidEvents']
+                                    required: true
+            responses:
+                204:
+                    description: OK
+    /payment/default-app-fee:
+        post:
+            summary: set default application fee for stripe account
+            tags:
+                - Payment
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                percentage:
+                                    type: integer
+                                    required: true
+                                type:
+                                    type: string
+                                    enum: ['zakatUlMal', 'zakatUlFtr', 'givings', 'meals', 'masjids', 'masjidEvents']
+                                    required: true
+            responses:
+                201:
+                    description: OK
+    /payment/app-fee:
+        post:
+            summary: set application fee for stripe account
+            tags:
+                - Payment
+            parameters:
+                - name: targetId
+                  in: query
+                  required: false
+                  schema:
+                      description: in case the type is (givings, masjids, masjidEvents).
+                      type: integer
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                percentage:
+                                    type: integer
+                                    required: true
+                                type:
+                                    type: string
+                                    enum: ['givings', 'masjids', 'masjidEvents']
+                                    required: true
+            responses:
+                201:
+                    description: OK
+    /payment/settings:
+        get:
+            summary: get settings for payment
+            tags:
+                - Payment
+            parameters:
+                - name: targetId
+                  in: query
+                  required: false
+                  schema:
+                      description: in case the type is (givings, masjids, masjidEvents).
+                      type: integer
+                - name: type
+                  in: query
+                  required: true
+                  schema:
+                      type: string
+                      enum: ['zakatUlMal', 'zakatUlFtr', 'givings', 'meals', 'masjids', 'masjidEvents']
+            responses:
+                200:
+                    description: OK
+    /public/payment/stripe-webhook/:
+        post:
+            summary: track events from stripe
+            tags:
+                - Payment
+            responses:
+                200:
+                    description: OK

@@ -1,0 +1,742 @@
+openapi: 3.0.0
+info:
+    title: User
+    description: User apis
+    version: 1.0.0
+paths:
+    /user/:
+        post:
+            summary: Creates a user
+            tags:
+                - User
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                firstName:
+                                    type: string
+                                    required: true
+                                lastName:
+                                    type: string
+                                    required: true
+                                email:
+                                    type: string
+                                    required: true
+                                prayerTimeMethod:
+                                    type: string
+                                    enum:
+                                        [
+                                            'MuslimWorldLeague',
+                                            'Egyptian',
+                                            'Karachi',
+                                            'UmmAlQura',
+                                            'Dubai',
+                                            'Qatar',
+                                            'Kuwait',
+                                            'MoonsightingCommittee',
+                                            'Singapore',
+                                            'Turkey',
+                                            'Tehran',
+                                            'NorthAmerica',
+                                            'Other',
+                                        ]
+                                    required: true
+                                madhab:
+                                    type: string
+                                    enum: ['Shafi', 'Hanafi']
+                                    required: true
+                                occupation:
+                                    type: string
+                                    required: true
+                                city:
+                                    type: string
+                                    required: true
+                                country:
+                                    type: string
+                                    required: true
+                                website:
+                                    type: string
+                                    required: false
+                                mobileNumber:
+                                    type: string
+                                    required: true
+                                lng:
+                                    type: number
+                                    format: double
+                                    required: true
+                                lat:
+                                    type: number
+                                    format: double
+                                    required: true
+                                location:
+                                    type: string
+                                    required: true
+            responses:
+                201:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    msg:
+                                        type: string
+                                    data:
+                                        type: object
+                                        properties:
+                                            id:
+                                                type: integer
+                                            name:
+                                                type: string
+                                            firstName:
+                                                type: string
+                                            lastName:
+                                                type: string
+                                            email:
+                                                type: string
+                                            role:
+                                                type: string
+                                                enum: ['user', 'admin', 'superAdmin']
+                                            prayerTimeMethod:
+                                                type: string
+                                                enum:
+                                                    [
+                                                        'MuslimWorldLeague',
+                                                        'Egyptian',
+                                                        'Karachi',
+                                                        'UmmAlQura',
+                                                        'Dubai',
+                                                        'Qatar',
+                                                        'Kuwait',
+                                                        'MoonsightingCommittee',
+                                                        'Singapore',
+                                                        'Turkey',
+                                                        'Tehran',
+                                                        'NorthAmerica',
+                                                        'Other',
+                                                    ]
+                                            madhab:
+                                                type: string
+                                                enum: ['Shafi', 'Hanafi']
+                                            occupation:
+                                                type: string
+                                            city:
+                                                type: string
+                                            country:
+                                                type: string
+                                            website:
+                                                type: string
+                                            mobileNumber:
+                                                type: string
+                                            lng:
+                                                type: number
+                                                format: double
+                                            lat:
+                                                type: number
+                                                format: double
+                                            location:
+                                                type: string
+                                            createdAt:
+                                                type: string
+                                                format: 'date-time'
+                                            updatedAt:
+                                                type: string
+                                                format: 'date-time'
+                412:
+                    description: A user with this email is already registered
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    msg:
+                                        type: string
+        patch:
+            summary: updates my info
+            tags:
+                - User
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                firstName:
+                                    type: string
+                                    required: false
+                                lastName:
+                                    type: string
+                                    required: false
+                                email:
+                                    type: string
+                                    required: false
+                                prayerTimeMethod:
+                                    type: string
+                                    enum:
+                                        [
+                                            'MuslimWorldLeague',
+                                            'Egyptian',
+                                            'Karachi',
+                                            'UmmAlQura',
+                                            'Dubai',
+                                            'Qatar',
+                                            'Kuwait',
+                                            'MoonsightingCommittee',
+                                            'Singapore',
+                                            'Turkey',
+                                            'Tehran',
+                                            'NorthAmerica',
+                                            'Other',
+                                        ]
+                                    required: false
+                                madhab:
+                                    type: string
+                                    enum: ['Shafi', 'Hanafi']
+                                    required: false
+                                occupation:
+                                    type: string
+                                    required: false
+                                city:
+                                    type: string
+                                    required: false
+                                country:
+                                    type: string
+                                    required: false
+                                website:
+                                    type: string
+                                    required: false
+                                mobileNumber:
+                                    type: string
+                                    required: false
+                                lng:
+                                    type: number
+                                    format: double
+                                    required: false
+                                lat:
+                                    type: number
+                                    format: double
+                                    required: false
+                                location:
+                                    type: string
+                                    required: false
+                                img:
+                                    type: string
+            responses:
+                200:
+                    description: Updated
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    msg:
+                                        type: string
+                                    data:
+                                        type: object
+                                        properties:
+                                            name:
+                                                type: string
+                                            role:
+                                                type: string
+                                                enum: ['user', 'admin', 'superAdmin']
+                                            firstName:
+                                                type: string
+                                            lastName:
+                                                type: string
+                                            email:
+                                                type: string
+                                            prayerTimeMethod:
+                                                type: string
+                                                enum:
+                                                    [
+                                                        'MuslimWorldLeague',
+                                                        'Egyptian',
+                                                        'Karachi',
+                                                        'UmmAlQura',
+                                                        'Dubai',
+                                                        'Qatar',
+                                                        'Kuwait',
+                                                        'MoonsightingCommittee',
+                                                        'Singapore',
+                                                        'Turkey',
+                                                        'Tehran',
+                                                        'NorthAmerica',
+                                                        'Other',
+                                                    ]
+                                            madhab:
+                                                type: string
+                                                enum: ['Shafi', 'Hanafi']
+                                            occupation:
+                                                type: string
+                                            city:
+                                                type: string
+                                            country:
+                                                type: string
+                                            website:
+                                                type: string
+                                            mobileNumber:
+                                                type: string
+                                            lng:
+                                                type: number
+                                                format: double
+                                            lat:
+                                                type: number
+                                                format: double
+                                            location:
+                                                type: string
+        get:
+            summary: Returns my user info(profile)
+            tags:
+                - User
+            responses:
+                200:
+                    description: OK
+        delete:
+            summary: Deletes my user
+            tags:
+                - User
+            responses:
+                204:
+                    description: User Deleted
+    /user/symptoms:
+        post:
+            summary: Creates a user event
+            tags:
+                - User
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                symptoms:
+                                    required: true
+                                    type: array
+                                    items:
+                                        type: string
+                                        enum: ['travelled']
+            responses:
+                201:
+                    description: Created
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    msg:
+                                        type: string
+                                        required: true
+                                    data:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                id:
+                                                    type: integer
+                                                    required: true
+                                                userId:
+                                                    type: integer
+                                                    required: true
+                                                symptom:
+                                                    type: string
+                                                    required: true
+                                                createdAt:
+                                                    type: string
+                                                    required: true
+    /user/status:
+        get:
+            summary: returns user status
+            tags:
+                - User
+            responses:
+                200:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    msg:
+                                        type: string
+                                        required: true
+                                    data:
+                                        type: object
+                                        required: true
+                                        properties:
+                                            banned:
+                                                type: boolean
+                                            eligibleAt:
+                                                type: string
+    /user/profile-image:
+        patch:
+            summary: Updates profile image
+            tags:
+                - User
+            requestBody:
+                required: true
+                content:
+                    multipart/form-data:
+                        schema:
+                            type: object
+                            properties:
+                                file:
+                                    type: string
+                                    format: binary
+                                    required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    msg:
+                                        type: string
+                                    data:
+                                        type: object
+                                        properties:
+                                            id:
+                                                type: integer
+                                            name:
+                                                type: string
+                                            firstName:
+                                                type: string
+                                            lastName:
+                                                type: string
+                                            email:
+                                                type: string
+                                            role:
+                                                type: string
+                                            prayerTimeMethod:
+                                                type: string
+                                            madhab:
+                                                type: string
+                                            occupation:
+                                                type: string
+                                            city:
+                                                type: string
+                                            country:
+                                                type: string
+                                            website:
+                                                type: string
+                                            mobileNumber:
+                                                type: string
+                                            lng:
+                                                type: number
+                                            lat:
+                                                type: number
+                                            location:
+                                                type: string
+                                            img:
+                                                type: string
+                                            createdAt:
+                                                type: string
+                                            updatedAt:
+                                                type: string
+    /user/settings/:
+        post:
+            summary: create a new user setting
+            tags:
+                - User
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required: true
+                            properties:
+                                key:
+                                    type: string
+                                value:
+                                    type: string
+            responses:
+                201:
+                    description: CREATED
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                        properties:
+                                            key:
+                                                type: string
+                                            value:
+                                                type: string
+        get:
+            summary: get all user settings
+            tags:
+                - User
+            responses:
+                200:
+                    description: OK
+    /user/settings/{key}:
+        patch:
+            summary: update user setting
+            tags:
+                - User
+            parameters:
+                - name: key
+                  in: path
+                  schema:
+                      type: string
+            requestBody:
+                required: false
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required: false
+                            properties:
+                                value:
+                                    type: string
+            responses:
+                200:
+                    description: OK
+        delete:
+            summary: delete user setting
+            tags:
+                - User
+            parameters:
+                - name: key
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                204:
+                    description: OK
+    /user/list:
+        get:
+            summary: get list of users
+            tags:
+                - User
+            parameters:
+                - name: limit
+                  in: query
+                  schema:
+                      type: integer
+                - name: offset
+                  in: query
+                  schema:
+                      type: integer
+            responses:
+                200:
+                    description: OK
+    /user/payments:
+        get:
+            summary: get list of user payments
+            tags:
+                - User
+            parameters:
+                - name: limit
+                  in: query
+                  schema:
+                      type: integer
+                - name: offset
+                  in: query
+                  schema:
+                      type: integer
+                - name: userId
+                  in: query
+                  schema:
+                      type: integer
+                - name: targetId
+                  in: query
+                  schema:
+                      type: integer
+                - name: targetType
+                  in: query
+                  schema:
+                      type: string
+                      enum: ['zakatUlMal', 'zakatUlFtr', 'givings', 'meals', 'masjids', 'masjidEvents']
+                - name: confirmed
+                  in: query
+                  schema:
+                      type: boolean
+                - name: createdAt
+                  in: query
+                  required: false
+                  schema:
+                      type: string
+                      format: date
+            responses:
+                200:
+                    description: OK
+    /user/{id}:
+        get:
+            summary: Returns user info by id
+            tags:
+                - User
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                200:
+                    description: OK
+        patch:
+            summary: updates user info by id
+            tags:
+                - User
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                firstName:
+                                    type: string
+                                lastName:
+                                    type: string
+                                email:
+                                    type: string
+                                role:
+                                    type: string
+                                    enum: ['user', 'admin', 'superAdmin']
+                                prayerTimeMethod:
+                                    type: string
+                                    enum:
+                                        [
+                                            'MuslimWorldLeague',
+                                            'Egyptian',
+                                            'Karachi',
+                                            'UmmAlQura',
+                                            'Dubai',
+                                            'Qatar',
+                                            'Kuwait',
+                                            'MoonsightingCommittee',
+                                            'Singapore',
+                                            'Turkey',
+                                            'Tehran',
+                                            'NorthAmerica',
+                                            'Other',
+                                        ]
+                                madhab:
+                                    type: string
+                                    enum: ['Shafi', 'Hanafi']
+                                occupation:
+                                    type: string
+                                city:
+                                    type: string
+                                country:
+                                    type: string
+                                website:
+                                    type: string
+                                mobileNumber:
+                                    type: string
+                                lng:
+                                    type: number
+                                    format: double
+                                lat:
+                                    type: number
+                                    format: double
+                                location:
+                                    type: string
+            responses:
+                200:
+                    description: Updated
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    msg:
+                                        type: string
+                                    data:
+                                        type: object
+                                        properties:
+                                            id:
+                                                type: integer
+                                            name:
+                                                type: string
+                                            firstName:
+                                                type: string
+                                            lastName:
+                                                type: string
+                                            email:
+                                                type: string
+                                            role:
+                                                type: string
+                                                enum: ['user', 'admin', 'superAdmin']
+                                            prayerTimeMethod:
+                                                type: string
+                                                enum:
+                                                    [
+                                                        'MuslimWorldLeague',
+                                                        'Egyptian',
+                                                        'Karachi',
+                                                        'UmmAlQura',
+                                                        'Dubai',
+                                                        'Qatar',
+                                                        'Kuwait',
+                                                        'MoonsightingCommittee',
+                                                        'Singapore',
+                                                        'Turkey',
+                                                        'Tehran',
+                                                        'NorthAmerica',
+                                                        'Other',
+                                                    ]
+                                            madhab:
+                                                type: string
+                                                enum: ['Shafi', 'Hanafi']
+                                            occupation:
+                                                type: string
+                                            city:
+                                                type: string
+                                            country:
+                                                type: string
+                                            website:
+                                                type: string
+                                            mobileNumber:
+                                                type: string
+                                            lng:
+                                                type: number
+                                                format: double
+                                            lat:
+                                                type: number
+                                                format: double
+                                            location:
+                                                type: string
+                                            createdAt:
+                                                type: string
+                                                format: 'date-time'
+                                            updatedAt:
+                                                type: string
+                                                format: 'date-time'
+        delete:
+            summary: Deletes user by id
+            tags:
+                - User
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                204:
+                    description: User Deleted
+    /user/prayers-occasions:
+        get:
+            summary: Get user prayers, occasions and hijri date over their own location time zone
+            tags:
+                - User
+            responses:
+                200:
+                    description: OK
